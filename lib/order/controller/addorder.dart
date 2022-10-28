@@ -28,7 +28,7 @@ class AddOrderController extends GetxController{
           textColor: Colors.white,
           fontSize: 16.0
       );
-      Get.offAll(()=>OrderScreen());
+      Get.offAll(()=>const OrderScreen());
       update();
       print(value);
     });

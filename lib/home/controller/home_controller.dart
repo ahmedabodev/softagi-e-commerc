@@ -32,7 +32,8 @@ class Home_Controller extends GetxController {
             Token: token.read('token'),
             lang: (apilang.read('apilang') == null)
                 ? 'en'
-                : apilang.read('apilang'))
+                : apilang.read('apilang')
+    )
         .then((value) {
       home = Home.fromJson(value.data['data']);
       update();

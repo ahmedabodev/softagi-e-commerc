@@ -17,8 +17,8 @@ void main() async{
   await EasyLocalization.ensureInitialized();
   await GetStorage.init();
   HttpOverrides.global = MyHttpOverrides();
-
   await DioHelper.init();
+
   runApp(EasyLocalization(
       supportedLocales: const [Locale('en', 'US'), Locale('ar', 'EG')],
       path: 'lang',

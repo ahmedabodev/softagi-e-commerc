@@ -21,6 +21,7 @@ class DescriptionScreen extends StatelessWidget {
   String? name;
   String? price;
   String? old_price;
+  String? image;
   List<String>?images;
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,7 @@ class DescriptionScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GetBuilder<Home_Controller>(builder: ( controller) {
+                 (images==null)? Image.network(image!.toString(),fit: BoxFit.contain,height: 150,width: double.infinity,): GetBuilder<Home_Controller>(builder: ( controller) {
                     return (controller.home==null)?const Center(child: CircularProgressIndicator(),):
                     CarouselSlider.builder(
                       itemCount: images!.length ,
@@ -123,7 +124,7 @@ class DescriptionScreen extends StatelessWidget {
 
                     );
                   },),
-                  GetBuilder<IndicatorController>(builder: ( controller) {
+                  (images==null)?const SizedBox():GetBuilder<IndicatorController>(builder: ( controller) {
                     return Center(
                       child: DotsIndicator(
                         dotsCount:images!.length,
@@ -161,8 +162,8 @@ class DescriptionScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10,),
 
-                  Divider(),
-                  const Text('description:',style: TextStyle(
+                  const Divider(),
+                   Text('description:'.tr(),style:const TextStyle(
                     fontFamily: 'Segoe',
                     fontSize: 20
 
@@ -189,5 +190,6 @@ class DescriptionScreen extends StatelessWidget {
     this.old_price,
      this.id,
     this.images,
+    this.image,
   });
 }

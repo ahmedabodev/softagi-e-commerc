@@ -9,6 +9,9 @@ import 'package:softage_app/auth/view/screens/loginscreen.dart';
 import 'package:softage_app/cart/controller/getcart_controller.dart';
 import 'package:softage_app/cart/view/screens/cartscreen.dart';
 import 'package:softage_app/const/const.dart';
+import 'package:softage_app/favorites/controller/add-remove-favorites.dart';
+import 'package:softage_app/favorites/controller/getfavorites.dart';
+import 'package:softage_app/favorites/view/favoritscreen.dart';
 import 'package:softage_app/home/controller/home_controller.dart';
 import 'package:softage_app/home/model/home-model.dart';
 import 'package:softage_app/setting/view/screens/settingscreen.dart';
@@ -18,7 +21,9 @@ import 'descriptionscreen.dart';
 class HomeScreen extends StatelessWidget {
    HomeScreen({Key? key}) : super(key: key);
    final  home_controller=Get.put(Home_Controller());
+   final   addReomveFavoritesController=Get.put(AddReomveFavoritesController());
    final  getCart_Controller=Get.put(GetCart_Controller());
+   final   getfavoritesController =Get.put(GetfavoritesController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,8 +32,7 @@ class HomeScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(icon:const Icon(Icons.favorite,color: Colors.black,),onPressed: (){
-            token.remove('token');
-            Get.to(LoginScreen());
+            Get.to(()=>FavoritScreen());
           },),
           Padding(
             padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 15.0,bottom: 15.0),
@@ -133,6 +137,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: (){
                         controller.indicator(0);
                         Get.to(()=>DescriptionScreen(
+                          image: product[index].image,
                           id:product[index].id.toString(),
                           description: product[index].description,
                           name: product[index].name,
@@ -154,26 +159,34 @@ class HomeScreen extends StatelessWidget {
 
                                   subtitle: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text('\$${product[index].price}',style: const TextStyle(
-                                            fontFamily: 'Segoe',
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text('\$${product[index].price}',style: const TextStyle(
+                                                fontFamily: 'Segoe',
 
-                                            color: Colors.black
-                                        ),),
-                                        Text('\$${product[index].old_price}',style: const TextStyle(
-                                          decoration: TextDecoration.lineThrough,
-                                          fontFamily: 'Segoe',
+                                                color: Colors.black
+                                            ),),
+                                            Text('\$${product[index].old_price}',style: const TextStyle(
+                                              decoration: TextDecoration.lineThrough,
+                                              fontFamily: 'Segoe',
 
-                                        ),),
-                                        Text('${product[index].discount}%',style: const TextStyle(
-                                          decoration: TextDecoration.lineThrough,
-                                          fontFamily: 'Segoe',
+                                            ),),
+                                            Text('${product[index].discount}%',style: const TextStyle(
+                                              decoration: TextDecoration.lineThrough,
+                                              fontFamily: 'Segoe',
 
-                                        ),),
+                                            ),),
 
 
+                                          ],
+                                        ),
+                                        IconButton(onPressed: (){
+                                          addReomveFavoritesController.addremovefavorit(product_id: product[index].id.toString());
+                                        }, icon:(product[index].in_favorites)?const Icon(Icons.favorite,color: Colors.red,):const Icon(Icons.favorite))
                                       ],
                                     ),
                                   ),
